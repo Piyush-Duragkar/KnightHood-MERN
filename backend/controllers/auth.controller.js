@@ -45,28 +45,70 @@ export const signup = async (req, res) => {
                     coverImg: newUser.coverImg
                 });
             } else {
-                console.log(" Error in signup controller", error.message);
-                res.status(400).json({ error: "Something went wrong"});
+                res.status(400).json({ error: "Invalid User Data"});
             }
 
 
 
 
         } catch (error) {
+            console.log(" Error in signup controller", error.message);
             res.status(500).json({ error: "Something went Wrong"});
         }
 };
 
 
 export const login = async (req, res) => {
-    res.json({
-        data: "we are on the login page",
+  try{
+
+    const {username, password} = req.body;
+
+    const user = await User.findOne({username: username});
+
+    const isPasswordCorrect = await bcrypt.compare(password, user?.password || "");
+    if(!user || !isPasswordCorrect){
+      return res.status(400).json({ error: "Invalid username or password"});
+    }
+
+    generateTokenAndSetCookie(user._id, res);
+
+    res.status(200).json({
+        _id: user._id,
+        username: user.username,
+        email: user.email,
+        followers: user.followers,
+        following: user.following,
+        profileImg: user.profileImg,
+        coverImg: user.coverImg
     });
+
+
+  } catch (error){
+    console.log(" Error in login controller", error.message);
+    res.status(500).json({ error: "Something went Wrong"});
+  }
 };
 
 export const logout = async (req, res) => {
-    res.json({
-        data: "we are on the logout page",
-    });
+    try{
+        res.cookie("jwt", "", {maxAge: 0})
+        res.status(200).json({ message: "User logged out successfully"});
+    } catch (error){
+        console.log(" Error in logout controller", error.message);
+        res.status(500).json({ error: "Something went Wrong"});
+    }   
+
 };
+
+
+export const getMe = async (req, res) => {
+    try{
+        const user = await User.findById(req.user._id).select("-password");
+        res.status(200).json(user);
+    } catch (error){
+        console.log(" Error in getMe controller", error.message);
+        res.status(500).json({ error: "Something went Wrong"});
+    }
+};
+
 
