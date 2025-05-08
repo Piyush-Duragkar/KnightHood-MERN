@@ -1,6 +1,8 @@
 import User from "../models/user.model.js";
 import Notification from "../models/notification.model.js";
 import mongoose from "mongoose";
+import bcrypt from "bcryptjs";
+import { v2 as cloudinary } from "cloudinary";
 
 export const getUserProfile = async (req, res) => {
   const { username } = req.params;
@@ -76,6 +78,77 @@ export const getSuggestedUser = async (req, res) => {
     res.status(200).json(suggestedUsers);
   } catch (error) {
     console.log("Error in getSuggestedUser controller: ", error.message);
+    res.status(500).json({ error: error.message });
+  }
+};
+
+export const updateUser = async (req, res) => {
+  const { username, email, bio, link, currentPassword, newPassword } = req.body;
+  let { profileImg, coverImg } = req.body;
+
+  try {
+    let user = await User.findById(req.user._id);
+    if (!user) return res.status(400).json({ error: "User does not exist." });
+
+    if (
+      (currentPassword && !newPassword) ||
+      (!currentPassword && newPassword)
+    ) {
+      return res
+        .status(400)
+        .json({ error: "Please enter both current and new password." });
+    }
+
+    if (currentPassword && newPassword) {
+      const isMatch = await bcrypt.compare(currentPassword, user.password);
+      if (!isMatch) {
+        return res
+          .status(400)
+          .json({ error: "Current password is incorrect." });
+      }
+      if (newPassword.length < 6) {
+        return res
+          .status(400)
+          .json({ error: "New password must be at least 6 characters long." });
+      }
+
+      const salt = await bcrypt.genSalt(10);
+      user.password = await bcrypt.hash(newPassword, salt);
+    }
+
+    if (profileImg) {
+      if (user.profileImg) {
+        await cloudinary.uploader.destroy(
+          user.profileImg.split("/").pop().split(".")[0]
+        );
+      }
+
+      const uploadedResponse = await cloudinary.uploader.upload(profileImg);
+      profileImg = uploadedResponse.secure_url;
+    }
+    if (coverImg) {
+      if (user.coverImg) {
+        await cloudinary.uploader.destroy(
+          user.profileImg.split("/").pop().split(".")[0]
+        );
+      }
+
+      const uploadedResponse = await cloudinary.uploader.upload(coverImg);
+      coverImg = uploadedResponse.secure_url;
+      ``;
+    }
+
+    user.username = username || user.username;
+    user.email = email || user.email;
+    user.bio = bio || user.bio;
+    user.link = link || user.link;
+    user.profileImg = profileImg || user.profileImg;
+    user.coverImg = coverImg || user.coverImg;
+
+    await user.save();
+    res.status(200).json({ message: "User updated successfully." });
+  } catch (error) {
+    console.log("Error in updateUser controller: ", error.message);
     res.status(500).json({ error: error.message });
   }
 };
