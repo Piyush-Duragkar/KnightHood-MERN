@@ -1,3 +1,8 @@
-@import "tailwindcss";
-@plugin "daisyui";
+/* @import "tailwindcss";
+@import "daisyui"; */
+
+@import "tailwindcss/preflight"; /* Replaces @tailwind base */
+@import "tailwindcss/utilities"; /* Replaces @tailwind components and utilities */
+
 @tailwind utilities;
+@plugin "daisyui";
