@@ -6,6 +6,7 @@ import { Routes, Route } from "react-router-dom";
 import SignUpPage from "./pages/auth/signup/SignUpPage";
 import Sidebar from "./components/common/Sidebar";
 import RightPanel from "./components/common/RightPanel";
+import Navbar from "./pages/home/Navbar";
 
 function App() {
   return (

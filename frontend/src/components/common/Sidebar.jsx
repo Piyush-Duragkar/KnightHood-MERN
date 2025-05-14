@@ -1,10 +1,11 @@
 import Athelegard from "../svgs/Athelegard";
-
 import { MdHomeFilled } from "react-icons/md";
 import { IoNotifications } from "react-icons/io5";
 import { FaUser } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { BiLogOut } from "react-icons/bi";
+
+const NAVBAR_HEIGHT = 100; // px, must match your Navbar's height
 
 const Sidebar = () => {
   const data = {
@@ -14,8 +15,11 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="md:flex-[2_2_0] w-18 max-w-52">
-      <div className="sticky top-0 left-0 h-screen flex flex-col border-r border-gray-700 w-20 md:w-full">
+    <div
+      className="md:flex-[2_2_0] w-18 max-w-52 border-r border-gray-700"
+      style={{ minHeight: "100vh", paddingTop: NAVBAR_HEIGHT }}
+    >
+      <div className="sticky top-0 left-0 h-[calc(100vh-70px)] flex flex-col w-20 md:w-full">
         <Link to="/" className="flex justify-center md:justify-start">
           <Athelegard className="px-2 w-12 h-12 rounded-full fill-white hover:bg-stone-900" />
         </Link>
@@ -38,7 +42,6 @@ const Sidebar = () => {
               <span className="text-lg hidden md:block">Notifications</span>
             </Link>
           </li>
-
           <li className="flex justify-center md:justify-start">
             <Link
               to={`/profile/${data?.username}`}
@@ -56,7 +59,10 @@ const Sidebar = () => {
           >
             <div className="avatar hidden md:inline-flex">
               <div className="w-8 rounded-full">
-                <img src={data?.profileImg || "/avatar-placeholder.png"} />
+                <img
+                  src={data?.profileImg || "/avatar-placeholder.png"}
+                  alt="profile"
+                />
               </div>
             </div>
             <div className="flex justify-between flex-1">
@@ -74,4 +80,5 @@ const Sidebar = () => {
     </div>
   );
 };
+
 export default Sidebar;

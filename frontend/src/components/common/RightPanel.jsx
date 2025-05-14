@@ -1,24 +1,29 @@
 import { Link } from "react-router-dom";
-// import RightPanelSkeleton from "../skeletons/RightPanelSkeleton";
+import RightPanelSkeleton from "../skeletons/RightPanelSkeleton";
 import { USERS_FOR_RIGHT_PANEL } from "../../utils/db/dummy";
+
+const NAVBAR_HEIGHT = 100; // px, should match your Navbar height
 
 const RightPanel = () => {
   const isLoading = false;
 
   return (
-    <div className="hidden lg:block my-4 mx-2">
-      <div className="bg-[#16181C] p-4 rounded-md sticky top-2">
-        <p className="font-bold">Who to follow</p>
+    <div
+      className="hidden lg:block my-4 mx-2"
+      style={{ paddingTop: NAVBAR_HEIGHT }}
+    >
+      <div className="bg-[#090909] p-4 rounded-md sticky top-2">
+        <p className="font-bold">Suggestions</p>
         <div className="flex flex-col gap-4">
           {/* item */}
-          {/* {isLoading && (
+          {isLoading && (
             <>
               <RightPanelSkeleton />
               <RightPanelSkeleton />
               <RightPanelSkeleton />
               <RightPanelSkeleton />
             </>
-          )} */}
+          )}
           {!isLoading &&
             USERS_FOR_RIGHT_PANEL?.map((user) => (
               <Link
