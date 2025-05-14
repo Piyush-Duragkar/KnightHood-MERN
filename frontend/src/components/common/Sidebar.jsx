@@ -4,10 +4,21 @@ import { IoNotifications } from "react-icons/io5";
 import { FaUser } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { BiLogOut } from "react-icons/bi";
+import { useEffect, useState } from "react";
 
 const NAVBAR_HEIGHT = 100; // px, must match your Navbar's height
 
 const Sidebar = () => {
+  const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1024);
+
+  useEffect(() => {
+    const handleResize = () => setIsDesktop(window.innerWidth >= 1024);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  if (!isDesktop) return null;
+
   const data = {
     fullName: "John Doe",
     username: "johndoe",

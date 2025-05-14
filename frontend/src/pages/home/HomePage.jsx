@@ -1,79 +1,44 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import Posts from "../../components/common/Posts";
 import CreatePost from "./CreatePost";
 
-// Navbar Component (with inline styles)
-const navbarStyle = {
-  position: "fixed",
-  top: 0,
-  left: 0,
-  width: "100%",
-  padding: "1rem 2rem",
-  backgroundColor: "black",
-  color: "#6F6F6F",
-  borderBottom: "2px solid white",
-  boxShadow: "0 0 40px 4px rgba(72, 135, 202, 0.9)",
-  zIndex: 1000,
-};
-
-const headerContentStyle = {
-  display: "flex",
-  alignItems: "center",
-  width: "100%",
-};
-const logoStyle = {
-  textDecoration: "none",
-  fontSize: "1.3rem",
-  fontWeight: "bold",
-  color: "#7d7b7b",
-  marginRight: "2rem",
-};
-const searchBarStyle = {
-  flexGrow: 1,
-  marginRight: "2rem",
-};
-const searchInputStyle = {
-  width: "100%",
-  padding: "0.2rem 10px",
-  borderRadius: "14px",
-  boxShadow: "0 0 40px 4px rgba(72, 135, 202, 0.9)",
-  fontSize: "1rem",
-  color: "rgb(128, 128, 128)",
-  border: "none",
-  outline: "none",
-  backgroundColor: "#181818",
-};
-const mainNavStyle = {
-  display: "flex",
-  gap: "1.5rem",
-};
-const linkStyle = {
-  textDecoration: "none",
-  color: "#6F6F6F",
-  fontWeight: 1000,
-};
-
+// Navbar Component (with Tailwind styles)
 const Navbar = () => (
-  <header style={navbarStyle}>
-    <div style={headerContentStyle}>
-      <Link to="/" style={logoStyle}>
+  <header className="fixed top-0 left-0 w-full bg-black text-gray-400 border-b-2 border-white shadow-[0_0_40px_4px_rgba(72,135,202,0.9)] z-50">
+    <div className="flex flex-wrap items-center justify-between px-4 md:px-8 py-4 gap-4">
+      {/* Logo aligned with sidebar */}
+      <Link to="/" className="text-xl font-bold text-gray-400 shrink-0">
         Athelegard
       </Link>
-      <div style={searchBarStyle}>
-        <input type="text" placeholder="Search..." style={searchInputStyle} />
+
+      {/* Search bar aligned with middle panel */}
+      <div className="flex-grow max-w-lg w-full md:w-auto">
+        <input
+          type="text"
+          placeholder="Search..."
+          className="w-full px-4 py-1 rounded-xl shadow-[0_0_40px_4px_rgba(72,135,202,0.9)] text-sm text-gray-400 bg-[#181818] border-none outline-none"
+        />
       </div>
-      <nav style={mainNavStyle}>
-        <Link to="/profile" style={linkStyle}>
+
+      {/* Navigation links aligned with right panel */}
+      <nav className="flex flex-wrap items-center gap-4 shrink-0">
+        <Link
+          to="/profile"
+          className="font-bold text-gray-400 hover:text-white"
+        >
           Profile
         </Link>
-        <Link to="/ally" style={linkStyle}>
+        <Link to="/ally" className="font-bold text-gray-400 hover:text-white">
           Ally
         </Link>
-        <Link to="/live" style={linkStyle}>
+        <Link to="/live" className="font-bold text-gray-400 hover:text-white">
           Live
         </Link>
-        <Link to="/settings" style={linkStyle}>
+        <Link
+          to="/settings"
+          className="font-bold text-gray-400 hover:text-white"
+        >
           Settings
         </Link>
       </nav>
@@ -83,14 +48,12 @@ const Navbar = () => (
 
 // HomePage Component
 const HomePage = () => {
-  const [feedType, setFeedType] = useState("forYou");
-
   return (
     <>
       <Navbar />
       {/* The paddingTop ensures content starts below the fixed Navbar */}
       <div
-        style={{ paddingTop: "70px" }}
+        style={{ paddingTop: "100px" }}
         className="flex-[4_4_0] mr-auto border-r border-gray-700 min-h-screen"
       >
         {/* Create Post */}
