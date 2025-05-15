@@ -33,7 +33,7 @@ const CreatePost = () => {
   };
 
   return (
-    <div className="flex p-4 items-start gap-4 border-b border-gray-700">
+    <div className="flex p-4 items-start gap-4 border-b shadow-[0_0_40px_4px_rgba(72,135,202,0.9)] border-gray-700">
       <div className="avatar">
         <div className="w-8 rounded-full">
           <img src={data.profileImg || "/avatar-placeholder.png"} />
@@ -62,7 +62,7 @@ const CreatePost = () => {
           </div>
         )}
 
-        <div className="flex justify-between border-t py-2 border-t-gray-700">
+        <div className="flex justify-between border-t py-2 border-t-gray-900">
           <div className="flex gap-1 items-center">
             <CiImageOn
               className="fill-primary w-6 h-6 cursor-pointer"
@@ -70,7 +70,13 @@ const CreatePost = () => {
             />
             <BsEmojiSmileFill className="fill-primary w-5 h-5 cursor-pointer" />
           </div>
-          <input type="file" hidden ref={imgRef} onChange={handleImgChange} />
+          <input
+            type="file"
+            accept="image/*"
+            hidden
+            ref={imgRef}
+            onChange={handleImgChange}
+          />
           <button className="btn btn-primary rounded-full btn-sm text-white px-4">
             {isPending ? "Posting..." : "Post"}
           </button>

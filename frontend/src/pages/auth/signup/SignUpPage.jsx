@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 
-import AthelegardSvg from "../../../components/svgs/Athelegard";
+import AthelegardSvg from "../../../components/svgs/Aethelgard";
 
 import { MdOutlineMail } from "react-icons/md";
 import { FaUser } from "react-icons/fa";

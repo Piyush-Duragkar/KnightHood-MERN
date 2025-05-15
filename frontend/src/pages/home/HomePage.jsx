@@ -9,7 +9,7 @@ const Navbar = () => (
     <div className="flex flex-wrap items-center justify-between px-4 md:px-8 py-4 gap-4">
       {/* Logo aligned with sidebar */}
       <Link to="/" className="text-xl font-bold text-gray-400 shrink-0">
-        Athelegard
+        Aethelgard
       </Link>
 
       {/* Search bar aligned with middle panel */}

@@ -1,4 +1,4 @@
-import Athelegard from "../svgs/Athelegard";
+import Athelegard from "../svgs/Aethelgard";
 import { MdHomeFilled } from "react-icons/md";
 import { IoNotifications } from "react-icons/io5";
 import { FaUser } from "react-icons/fa";

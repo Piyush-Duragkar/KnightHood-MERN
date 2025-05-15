@@ -9,7 +9,7 @@ const RightPanel = () => {
 
   return (
     <div
-      className="hidden lg:block my-4 mx-2"
+      className="hidden lg:block my-4 mx-7"
       style={{ paddingTop: NAVBAR_HEIGHT }}
     >
       <div className="bg-[#090909] p-4 rounded-md sticky top-2">
