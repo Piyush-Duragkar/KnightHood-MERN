@@ -5,6 +5,8 @@ import { FaUser } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { BiLogOut } from "react-icons/bi";
 import { useEffect, useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 
 const NAVBAR_HEIGHT = 100; // px, must match your Navbar's height
 
@@ -18,6 +20,31 @@ const Sidebar = () => {
   }, []);
 
   if (!isDesktop) return null;
+
+  const {
+    mutate: logout,
+    isPending,
+    isError,
+    error,
+  } = useMutation({
+    mutationFn: async () => {
+      try {
+        const res = await fetch("/api/auth/logout", {
+          method: "POST",
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          throw new Error(data.error || "Something went wrong");
+        }
+        console.log(data);
+      } catch (error) {
+        throw new Error(error);
+      }
+    },
+    onSuccess: () => {
+      toast.success("Logout Successful");
+    },
+  });
 
   const data = {
     fullName: "John Doe",
@@ -83,7 +110,13 @@ const Sidebar = () => {
                 </p>
                 <p className="text-slate-500 text-sm">@{data?.username}</p>
               </div>
-              <BiLogOut className="w-5 h-5 cursor-pointer" />
+              <BiLogOut
+                className="w-5 h-5 cursor-pointer"
+                onClick={(e) => {
+                  e.preventDefault();
+                  logout();
+                }}
+              />
             </div>
           </Link>
         )}

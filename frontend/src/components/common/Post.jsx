@@ -27,7 +27,7 @@ const Post = ({ post }) => {
 
   return (
     <>
-      <div className="flex gap-2 items-start p-4 border-b shadow-[0_0_40px_4px_rgba(72,135,202,0.9)] border-gray-700">
+      <div className="flex gap-2 items-start p-4 border-b shadow-[0_0_40px_4px_rgba(72,135,202,0.7)] border-gray-700">
         <div className="avatar">
           <Link
             to={`/profile/${postOwner.username}`}
