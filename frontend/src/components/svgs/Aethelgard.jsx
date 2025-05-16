@@ -1,5 +1,5 @@
 import * as React from "react";
-const AthelegardSvg = (props) => (
+const AethelgardSvg = (props) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width={400}
@@ -13,4 +13,4 @@ const AthelegardSvg = (props) => (
     </g>
   </svg>
 );
-export default AthelegardSvg;
+export default AethelgardSvg;

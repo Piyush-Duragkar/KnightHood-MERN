@@ -9,6 +9,8 @@ import RightPanel from "./components/common/RightPanel";
 import NotificationPage from "./pages/notification/NotificationPage";
 import ProfilePage from "./pages/profile/ProfilePage";
 
+import { Toaster } from "react-hot-toast";
+
 function App() {
   const [showSidePanels, setShowSidePanels] = useState(
     window.innerWidth >= 1024
@@ -34,6 +36,7 @@ function App() {
         <Route path="/profile/:username" element={<ProfilePage />} />
       </Routes>
       {showSidePanels && <RightPanel />}
+      <Toaster />
     </div>
   );
 }

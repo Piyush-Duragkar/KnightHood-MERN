@@ -71,7 +71,7 @@ const Navbar = () => {
           <input type="text" placeholder="Search..." style={searchInputStyle} />
         </div>
         <nav style={mainNavStyle}>
-          <Link to="/profile" style={linkStyle}>
+          <Link to="/profile/:username" style={linkStyle}>
             Profile
           </Link>
           <Link to="/ally" style={linkStyle}>
