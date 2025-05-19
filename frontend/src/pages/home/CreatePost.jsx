@@ -13,6 +13,9 @@ const CreatePost = () => {
 
   const { data: authUser } = useQuery({
     queryKey: ["authUser"],
+    queryFn: async () => {
+      return authUser;
+    },
   });
 
   const queryClient = useQueryClient();
