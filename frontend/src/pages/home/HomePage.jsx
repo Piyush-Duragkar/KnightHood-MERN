@@ -53,8 +53,8 @@ const HomePage = () => {
       <Navbar />
       {/* The paddingTop ensures content starts below the fixed Navbar */}
       <div
-        style={{ paddingTop: "100px" }}
-        className="flex-[4_4_0] mr-auto border-r border-gray-700 min-h-screen"
+        style={{ paddingTop: "70px" }}
+        className="flex-[4_4_0] mr-auto border-r border-black min-h-screen"
       >
         {/* Create Post */}
         <CreatePost />

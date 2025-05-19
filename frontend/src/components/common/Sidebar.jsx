@@ -51,7 +51,7 @@ const Sidebar = () => {
 
   return (
     <div
-      className="md:flex-[2_2_0] w-18 max-w-52 border-r border-gray-700"
+      className="md:flex-[2_2_0] w-18 max-w-52 border-r border-black"
       style={{ minHeight: "100vh", paddingTop: NAVBAR_HEIGHT }}
     >
       <div className="sticky top-0 left-0 h-[calc(100vh-70px)] flex flex-col w-20 md:w-full">

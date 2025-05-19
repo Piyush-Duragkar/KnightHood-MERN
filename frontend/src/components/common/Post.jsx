@@ -5,19 +5,59 @@ import { FaRegBookmark } from "react-icons/fa6";
 import { FaTrash } from "react-icons/fa";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+
+import LoadingSpinner from "./LoadingSpinner";
+import { toast } from "react-hot-toast";
 
 const Post = ({ post }) => {
   const [comment, setComment] = useState("");
+  const { data: authUser } = useQuery({
+    queryKey: ["authUser"],
+    queryFn: async () => {
+      return authUser;
+    },
+  });
+
+  const queryClient = useQueryClient();
+
+  const { mutate: deletePost, isPending } = useMutation({
+    mutationFn: async () => {
+      try {
+        const res = await fetch(`/api/posts/${post._id}`, {
+          method: "DELETE",
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          throw new Error(data.error || "Failed to delete post");
+        }
+
+        return data;
+      } catch (error) {
+        throw new Error(error);
+      }
+    },
+    onSuccess: () => {
+      toast.success("Post deleted successfully");
+      queryClient.invalidateQueries({ queryKey: ["posts"] });
+    },
+  });
+
   const postOwner = post.user;
   const isLiked = false;
 
-  const isMyPost = true;
+  // const isMyPost = authUser._id === post.user._id;
+  const isMyPost = authUser && post.user && authUser._id === post.user._id;
 
   const formattedDate = "1h";
 
   const isCommenting = false;
 
-  const handleDeletePost = () => {};
+  const handleDeletePost = () => {
+    deletePost(post._id);
+  };
 
   const handlePostComment = (e) => {
     e.preventDefault();
@@ -27,7 +67,7 @@ const Post = ({ post }) => {
 
   return (
     <>
-      <div className="flex gap-2 items-start p-4 border-b shadow-[0_0_40px_4px_rgba(72,135,202,0.5)] border-gray-700">
+      <div className="flex gap-2 items-start p-4 mb-2 mt-2 border-b shadow-[0_0_40px_4px_rgba(72,135,202,0.5)] border-gray-700">
         <div className="avatar">
           <Link
             to={`/profile/${postOwner.username}`}
@@ -50,10 +90,13 @@ const Post = ({ post }) => {
             </span>
             {isMyPost && (
               <span className="flex justify-end flex-1">
-                <FaTrash
-                  className="cursor-pointer hover:text-red-500"
-                  onClick={handleDeletePost}
-                />
+                {!isPending && (
+                  <FaTrash
+                    className="cursor-pointer hover:text-red-500"
+                    onClick={handleDeletePost}
+                  />
+                )}
+                {isPending && <LoadingSpinner size />}
               </span>
             )}
           </div>

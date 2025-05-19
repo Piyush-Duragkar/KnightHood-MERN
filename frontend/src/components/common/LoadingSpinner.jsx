@@ -1,4 +1,4 @@
-const LoadingSpinner = ({ size = "md" }) => {
+const LoadingSpinner = ({ size = "xl" }) => {
   const sizeClass = `loading-${size}`;
 
   return <span className={`loading loading-infinity ${sizeClass}`} />;
