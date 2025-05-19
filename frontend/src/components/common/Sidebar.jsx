@@ -1,11 +1,13 @@
 import Athelegard from "../svgs/Aethelgard";
-import { MdHomeFilled } from "react-icons/md";
+// import { MdHomeFilled } from "react-icons/md";
+import { TbHomeRibbon } from "react-icons/tb";
 import { IoNotifications } from "react-icons/io5";
 import { FaUser } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { BiLogOut } from "react-icons/bi";
 import { useEffect, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import userAvatar from "../svgs/userAvatar";
 import toast from "react-hot-toast";
 
 const NAVBAR_HEIGHT = 100; // px, must match your Navbar's height
@@ -64,7 +66,7 @@ const Sidebar = () => {
               to="/"
               className="flex gap-3 items-center hover:bg-stone-900 transition-all rounded-full duration-300 py-2 pl-2 pr-4 max-w-fit cursor-pointer"
             >
-              <MdHomeFilled className="w-8 h-8" />
+              <TbHomeRibbon className="w-8 h-8" />
               <span className="text-lg hidden md:block">Home</span>
             </Link>
           </li>
