@@ -66,11 +66,11 @@ export const commentOnPost = async (req, res) => {
 
     const post = await Post.findById(postId);
     if (!post) {
-      return res.status(404).send("Post not found");
+      return res.status(404).json({ error: "Post not found" });
     }
 
     if (!text) {
-      return res.status(400).send("Text is required");
+      return res.status(400).json({ error: "Text field is required" });
     }
 
     const newComment = {

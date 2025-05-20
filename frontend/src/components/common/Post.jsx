@@ -13,11 +13,12 @@ import { formatPostDate } from "./../../utils/db/date/index";
 
 const Post = ({ post }) => {
   const [comment, setComment] = useState("");
+
   const { data: authUser } = useQuery({
     queryKey: ["authUser"],
-    queryFn: async () => {
-      return authUser;
-    },
+    // queryFn: async () => {
+    //   return authUser;
+    // },
   });
 
   const queryClient = useQueryClient();
@@ -103,7 +104,7 @@ const Post = ({ post }) => {
         const data = await res.json();
 
         if (!res.ok) {
-          throw new Error("Failed to comment post");
+          throw new Error(data.error || "Something went wrong");
         }
         return data;
       } catch (error) {
@@ -112,6 +113,8 @@ const Post = ({ post }) => {
     },
     onSuccess: () => {
       toast.success("Comment posted successfully");
+      setComment("");
+      queryClient.invalidateQueries({ queryKey: ["posts"] });
     },
     onError: (error) => {
       toast.error(error.message);
@@ -126,7 +129,6 @@ const Post = ({ post }) => {
     e.preventDefault();
     if (isCommenting) return;
     commentPost();
-    setComment("");
   };
 
   const handleLikePost = () => {
