@@ -108,15 +108,16 @@ export const likeUnlikePost = async (req, res) => {
       post.likes.push(userId);
       await User.updateOne({ _id: userId }, { $push: { likedPosts: postId } });
       await post.save();
+
+      const notification = new Notification({
+        type: "like",
+        from: userId,
+        to: post.user,
+      });
+      await notification.save();
+      const updatedLikes = post.likes;
+      res.status(200).json(updatedLikes);
     }
-    const notification = new Notification({
-      type: "like",
-      from: userId,
-      to: post.user,
-    });
-    await notification.save();
-    const updatedLikes = post.likes;
-    res.status(200).json(updatedLikes);
   } catch (error) {
     console.log(error, "Error liking post");
     return res.status(500).send(error.message);
