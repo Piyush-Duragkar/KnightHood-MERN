@@ -19,9 +19,9 @@ export const deleteNotification = async (req, res) => {
   try {
     const userId = await req.user._id;
     await Notification.deleteMany({ to: userId });
-    res.status(200).send("Notifications deleted");
+    res.status(200).json("Notifications deleted");
   } catch (error) {
     console.log(error, "Error deleting notifications");
-    res.status(500).send(error.message);
+    res.status(500).json(error.message);
   }
 };
