@@ -1,12 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-
+import { POSTS } from "../../utils/db/dummy";
 import Posts from "../../components/common/Posts";
 import ProfileHeaderSkeleton from "../../components/skeletons/ProfileHeaderSkeleton";
 import EditProfileModal from "./EditProfileModal";
-
-import { POSTS } from "../../utils/db/dummy";
-
 import { FaArrowLeft } from "react-icons/fa6";
 import { IoCalendarOutline } from "react-icons/io5";
 import { FaLink } from "react-icons/fa";
@@ -24,7 +21,7 @@ const ProfilePage = () => {
   const coverImgRef = useRef(null);
   const profileImgRef = useRef(null);
 
-  const isMyProfile = true;
+  const { data: authUser } = useQuery({ queryKey: ["authUser"] });
 
   const {
     data: user,
@@ -45,6 +42,7 @@ const ProfilePage = () => {
     },
   });
   const memberSinceDate = formatMemberSinceDate(user?.createdAt);
+  const isMyProfile = authUser._id === user?._id;
 
   const handleImgChange = (e, state) => {
     const file = e.target.files[0];
@@ -139,7 +137,7 @@ const ProfilePage = () => {
                 {isMyProfile && <EditProfileModal />}
                 {!isMyProfile && (
                   <button
-                    className="btn btn-outline rounded-full btn-sm"
+                    className="btn  text-white shadow-[0_0_15px_4px_rgba(72,135,202,0.5)] hover:bg-gray-700 hover:opacity-90 rounded-full btn-sm"
                     onClick={() => alert("Followed successfully")}
                   >
                     Follow
