@@ -33,7 +33,7 @@ const ProfilePage = () => {
     refetch,
     isRefetching,
   } = useQuery({
-    queryKey: ["user"],
+    queryKey: ["userProfile"],
     queryFn: async () => {
       try {
         const res = await fetch(`/api/users/profile/${username}`);
@@ -65,12 +65,12 @@ const ProfilePage = () => {
         }
         return data;
       } catch (error) {
-        throw new Error(error);
+        throw new Error(error.message);
       }
     },
-    onSuccess: () => {
+    onSuccess: async () => {
       toast.success("Profile updated successfully");
-      Promise.all([
+      await Promise.all([
         queryClient.invalidateQueries({ queryKey: ["authUser"] }),
         queryClient.invalidateQueries({ queryKey: ["userProfile"] }),
       ]);
@@ -210,12 +210,11 @@ const ProfilePage = () => {
                       <>
                         <FaLink className="w-3 h-3 text-slate-500" />
                         <a
-                          href="https://youtube.com/@asaprogrammer_"
                           target="_blank"
                           rel="noreferrer"
                           className="text-sm text-blue-500 hover:underline"
                         >
-                          youtube.com/@asaprogrammer_
+                          {user?.link}
                         </a>
                       </>
                     </div>

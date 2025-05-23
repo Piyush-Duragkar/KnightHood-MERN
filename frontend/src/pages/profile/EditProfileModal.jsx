@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 const EditProfileModal = ({ authUser }) => {
@@ -33,9 +33,9 @@ const EditProfileModal = ({ authUser }) => {
         throw new Error(error);
       }
     },
-    onSuccess: () => {
+    onSuccess: async () => {
       toast.success("Profile updated successfully");
-      Promise.all([
+      await Promise.all([
         queryClient.invalidateQueries({ queryKey: ["authUser"] }),
         queryClient.invalidateQueries({ queryKey: ["userProfile"] }),
       ]);
