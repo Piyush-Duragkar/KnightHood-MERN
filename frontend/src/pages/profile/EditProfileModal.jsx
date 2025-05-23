@@ -99,6 +99,7 @@ const EditProfileModal = ({ authUser }) => {
                 value={formData.username}
                 name="username"
                 onChange={handleInputChange}
+                // readOnly
               />
             </div>
             <div className="flex flex-wrap gap-2">

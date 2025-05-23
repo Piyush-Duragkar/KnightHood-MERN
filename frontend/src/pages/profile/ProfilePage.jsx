@@ -72,8 +72,10 @@ const ProfilePage = () => {
       toast.success("Profile updated successfully");
       await Promise.all([
         queryClient.invalidateQueries({ queryKey: ["authUser"] }),
+        queryClient.invalidateQueries({ queryKey: ["user"] }),
         queryClient.invalidateQueries({ queryKey: ["userProfile"] }),
       ]);
+      refetch();
     },
     onError: () => {
       toast.error("Something went wrong!");
@@ -102,7 +104,7 @@ const ProfilePage = () => {
 
   return (
     <>
-      <div className="flex-[4_4_0]  border-r border-gray-700 min-h-screen ">
+      <div className="flex-[4_4_0]   border-gray-700 min-h-screen ">
         {/* HEADER */}
         {(isLoading || isRefetching) && <ProfileHeaderSkeleton />}
         {!isLoading && !isRefetching && !user && (
