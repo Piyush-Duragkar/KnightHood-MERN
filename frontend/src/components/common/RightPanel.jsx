@@ -52,7 +52,11 @@ const RightPanel = () => {
                 <div className="flex gap-2 items-center">
                   <div className="avatar">
                     <div className="w-8 rounded-full">
-                      <img src={user.profileImg || "/avatar-placeholder.png"} />
+                      <img
+                        src={user.profileImg || "/userAvatar.svg"}
+                        alt={`${user.username}'s avatar`}
+                        className="object-cover"
+                      />
                     </div>
                   </div>
                   <div className="flex flex-col">

@@ -79,7 +79,7 @@ const CreatePost = () => {
     <div className="flex p-4 items-start gap-4 border-b shadow-[0_0_40px_4px_rgba(72,135,202,0.6)] border-gray-700">
       <div className="avatar">
         <div className="w-8 rounded-full">
-          <img src={authUser.profileImg || "/avatar-placeholder.png"} />
+          <img src={authUser.profileImg || "/userAvatar.svg"} />
         </div>
       </div>
       <form className="flex flex-col gap-2 w-full" onSubmit={handleSubmit}>

@@ -34,7 +34,7 @@ const userSchema = new mongoose.Schema(
 
     profileImg: {
       type: String,
-      default: "",
+      default: "/userAvatar.svg",
     },
 
     coverImg: {

@@ -1,13 +1,13 @@
 import Athelegard from "../svgs/Aethelgard";
-// import { MdHomeFilled } from "react-icons/md";
+
 import { TbHomeRibbon } from "react-icons/tb";
-import { IoNotifications } from "react-icons/io5";
-import { FaUser } from "react-icons/fa";
+import { MdOutlineNotifications } from "react-icons/md";
+
 import { Link } from "react-router-dom";
 import { BiLogOut } from "react-icons/bi";
 import { useEffect, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import userAvatar from "../svgs/userAvatar";
+
 import toast from "react-hot-toast";
 
 const NAVBAR_HEIGHT = 100; // px, must match your Navbar's height
@@ -75,7 +75,7 @@ const Sidebar = () => {
               to="/notifications"
               className="flex gap-3 items-center hover:bg-stone-900 transition-all rounded-full duration-300 py-2 pl-2 pr-4 max-w-fit cursor-pointer"
             >
-              <IoNotifications className="w-6 h-6" />
+              <MdOutlineNotifications className="w-8 h-8" />
               <span className="text-lg hidden md:block">Notifications</span>
             </Link>
           </li>
@@ -84,7 +84,12 @@ const Sidebar = () => {
               to={`/profile/${authUser?.username}`}
               className="flex gap-3 items-center hover:bg-stone-900 transition-all rounded-full duration-300 py-2 pl-2 pr-4 max-w-fit cursor-pointer"
             >
-              <FaUser className="w-6 h-6" />
+              {/* <FaUser className="w-6 h-6" /> */}
+              <img
+                className="w-8 h-8 rounded-full"
+                src={"/userAvatar.svg"}
+                alt="Avatar"
+              />
               <span className="text-lg hidden md:block">Profile</span>
             </Link>
           </li>
@@ -97,7 +102,7 @@ const Sidebar = () => {
             <div className="avatar hidden md:inline-flex">
               <div className="w-8 rounded-full ">
                 <img
-                  src={authUser?.profileImg || "/avatar-placeholder.png"}
+                  src={authUser?.profileImg || "/userAvatar.svg"}
                   alt="profile"
                 />
               </div>

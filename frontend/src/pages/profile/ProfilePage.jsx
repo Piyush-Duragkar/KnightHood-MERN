@@ -120,7 +120,7 @@ const ProfilePage = () => {
                 <div className="flex flex-col">
                   <p className="font-bold text-lg">{user?.fullName}</p>
                   <span className="text-sm text-slate-500">
-                    {POSTS?.length} posts
+                    {user?.username}'s Profile'
                   </span>
                 </div>
               </div>
@@ -158,11 +158,7 @@ const ProfilePage = () => {
                 <div className="avatar absolute -bottom-16 left-4">
                   <div className="w-32 rounded-full relative group/avatar">
                     <img
-                      src={
-                        profileImg ||
-                        user?.profileImg ||
-                        "/avatar-placeholder.png"
-                      }
+                      src={profileImg || user?.profileImg || "/userAvatar.svg"}
                     />
                     <div className="absolute top-5 right-3 p-1 bg-primary rounded-full group-hover/avatar:opacity-100 opacity-0 cursor-pointer">
                       {isMyProfile && (
@@ -245,21 +241,21 @@ const ProfilePage = () => {
               </div>
               <div className="flex w-full border-b border-gray-700 mt-4">
                 <div
-                  className="flex justify-center flex-1 p-3 hover:bg-secondary transition duration-300 relative cursor-pointer"
-                  onClick={() => setFeedType("posts")}
-                >
-                  Posts
-                  {feedType === "posts" && (
-                    <div className="absolute bottom-0 w-10 h-1 rounded-full bg-primary" />
-                  )}
-                </div>
-                <div
                   className="flex justify-center flex-1 p-3 text-slate-500 hover:bg-secondary transition duration-300 relative cursor-pointer"
                   onClick={() => setFeedType("likes")}
                 >
                   Likes
                   {feedType === "likes" && (
                     <div className="absolute bottom-0 w-10  h-1 rounded-full bg-primary" />
+                  )}
+                </div>
+                <div
+                  className="flex justify-center flex-1 p-3 hover:bg-secondary transition duration-300 relative cursor-pointer"
+                  onClick={() => setFeedType("posts")}
+                >
+                  Posts
+                  {feedType === "posts" && (
+                    <div className="absolute bottom-0 w-10 h-1 rounded-full bg-primary" />
                   )}
                 </div>
               </div>
