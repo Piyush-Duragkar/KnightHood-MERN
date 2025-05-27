@@ -57,6 +57,17 @@ const userSchema = new mongoose.Schema(
         default: [],
       },
     ],
+    games: [
+      {
+        name: { type: String, required: true },
+        url: String,
+        iconUrl: String,
+        description: String,
+        originalId: String,
+        addedAt: { type: Date, default: Date.now },
+        // No _id or ref here!
+      },
+    ],
   },
   { timestamps: true }
 );

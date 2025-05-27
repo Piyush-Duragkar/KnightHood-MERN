@@ -135,7 +135,6 @@ export const updateUser = async (req, res) => {
 
       const uploadedResponse = await cloudinary.uploader.upload(coverImg);
       coverImg = uploadedResponse.secure_url;
-      ``;
     }
 
     user.username = username || user.username;
@@ -144,11 +143,75 @@ export const updateUser = async (req, res) => {
     user.link = link || user.link;
     user.profileImg = profileImg || user.profileImg;
     user.coverImg = coverImg || user.coverImg;
+    if (req.body.games) {
+      user.games = req.body.games; // This replaces the array
+      await User.findByIdAndUpdate(
+        req.user._id,
+        { $set: { games: req.body.games } },
+        { new: true }
+      );
+    }
 
     await user.save();
     res.status(200).json({ message: "User updated successfully." });
   } catch (error) {
     console.log("Error in updateUser controller: ", error.message);
     res.status(500).json({ error: error.message });
+  }
+};
+export const addGameToUser = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { game } = req.body; // Now accepting complete game object
+
+    const user = await User.findById(userId);
+    if (!user) return res.status(404).json({ error: "User not found" });
+
+    // Check if game with same name already exists (case insensitive)
+    const gameExists = user.games.some(
+      (g) =>
+        g.name.toLowerCase() === (game.name || game.Name || "").toLowerCase()
+    );
+
+    if (gameExists) {
+      return res.status(400).json({ error: "Game already added" });
+    }
+
+    // Add complete game object with standardized field names
+    user.games.push({
+      name: game.name || game.Name,
+      url: game.url || game.URL,
+      iconUrl: game.iconUrl || game["Icon URL"] || game.imageurl, // <-- camelCase first!
+      description: game.description || game.Description,
+      originalId: game._id,
+      addedAt: new Date(),
+    });
+
+    await user.save();
+    res.status(200).json({
+      success: true,
+      games: user.games,
+      message: "Game added successfully",
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: "Server error",
+      details: error.message,
+    });
+  }
+};
+
+export const getUserGames = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const user = await User.findById(userId).select("games");
+    if (!user) return res.status(404).json({ error: "User not found" });
+
+    res.status(200).json(user.games);
+  } catch (error) {
+    res.status(500).json({
+      error: "Server error",
+      details: error.message,
+    });
   }
 };

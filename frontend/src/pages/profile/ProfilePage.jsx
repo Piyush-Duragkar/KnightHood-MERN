@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { POSTS } from "../../utils/db/dummy";
 import Posts from "../../components/common/Posts";
 import ProfileHeaderSkeleton from "../../components/skeletons/ProfileHeaderSkeleton";
 import EditProfileModal from "./EditProfileModal";
@@ -85,6 +84,8 @@ const ProfilePage = () => {
   const memberSinceDate = formatMemberSinceDate(user?.createdAt);
   const isMyProfile = authUser._id === user?._id;
   const amIFollowing = authUser?.following.includes(user?._id);
+  const [userGames, setUserGames] = useState([]);
+  const [gamesLoading, setGamesLoading] = useState(false);
 
   const handleImgChange = (e, state) => {
     const file = e.target.files[0];
@@ -103,20 +104,20 @@ const ProfilePage = () => {
   }, [username, refetch]);
 
   const renderGames = () => {
-    const savedGames = JSON.parse(localStorage.getItem("userGames")) || [];
+    const games = user?.games || [];
     return (
       <div className="p-4">
-        {savedGames.length === 0 ? (
+        {games.length === 0 ? (
           <p className="text-slate-500">No games added yet.</p>
         ) : (
           <ul className="space-y-2">
-            {savedGames.map((game, index) => (
+            {games.map((game, index) => (
               <li
                 key={index}
                 className="flex items-center gap-2 bg-gray-800 p-2 rounded-md"
               >
                 <img
-                  src={game.imageurl}
+                  src={game.iconUrl || game.imageurl}
                   alt={game.name}
                   className="w-10 h-10 object-cover rounded"
                 />
@@ -128,6 +129,22 @@ const ProfilePage = () => {
       </div>
     );
   };
+
+  useEffect(() => {
+    const fetchUserGames = async () => {
+      try {
+        setGamesLoading(true);
+        const res = await axios.get(`/api/users/games/${username}`);
+        setUserGames(res.data.games); // assuming backend responds with { games: [...] }
+      } catch (err) {
+        console.error("Failed to fetch games", err);
+      } finally {
+        setGamesLoading(false);
+      }
+    };
+
+    fetchUserGames();
+  }, [username]);
 
   return (
     <>
