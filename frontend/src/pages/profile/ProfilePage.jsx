@@ -102,6 +102,33 @@ const ProfilePage = () => {
     refetch();
   }, [username, refetch]);
 
+  const renderGames = () => {
+    const savedGames = JSON.parse(localStorage.getItem("userGames")) || [];
+    return (
+      <div className="p-4">
+        {savedGames.length === 0 ? (
+          <p className="text-slate-500">No games added yet.</p>
+        ) : (
+          <ul className="space-y-2">
+            {savedGames.map((game, index) => (
+              <li
+                key={index}
+                className="flex items-center gap-2 bg-gray-800 p-2 rounded-md"
+              >
+                <img
+                  src={game.imageurl}
+                  alt={game.name}
+                  className="w-10 h-10 object-cover rounded"
+                />
+                <span className="text-white font-medium">{game.name}</span>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    );
+  };
+
   return (
     <>
       <div className="flex-[4_4_0]   border-gray-700 min-h-screen ">
@@ -242,10 +269,10 @@ const ProfilePage = () => {
               <div className="flex w-full border-b border-gray-700 mt-4">
                 <div
                   className="flex justify-center flex-1 p-3 text-slate-500 hover:bg-secondary transition duration-300 relative cursor-pointer"
-                  onClick={() => setFeedType("likes")}
+                  onClick={() => setFeedType("games")}
                 >
-                  Likes
-                  {feedType === "likes" && (
+                  Games
+                  {feedType === "games" && (
                     <div className="absolute bottom-0 w-10  h-1 rounded-full bg-primary" />
                   )}
                 </div>
@@ -262,7 +289,11 @@ const ProfilePage = () => {
             </>
           )}
 
-          <Posts feedType={feedType} username={username} />
+          {feedType === "games" ? (
+            renderGames()
+          ) : (
+            <Posts feedType={feedType} username={username} />
+          )}
         </div>
       </div>
     </>
